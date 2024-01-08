@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/usuario")
 public class UsuarioController {
 
-    /** Log de usuarioController */
-    private static final Logger LOG = LoggerFactory.getLogger(UsuarioController.class);
 
     /** Servicio usuario */
     @Autowired
@@ -26,7 +24,6 @@ public class UsuarioController {
 
     @PostMapping(value = "/alta")
     public ResponseEntity<?> alta (@Valid @RequestBody final UsuarioDto usuarioDto) {
-        LOG.info("Endpoint UsuarioController.alta");
         return ResponseEntity.status(HttpStatus.OK).body(service.saveUsuario(usuarioDto));
     }
 
