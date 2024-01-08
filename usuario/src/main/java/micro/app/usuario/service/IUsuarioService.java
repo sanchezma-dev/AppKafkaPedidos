@@ -7,7 +7,7 @@ public interface IUsuarioService {
     /**
      * Guardar en base de datos un usuario o lo actualiza
      *
-     * @param usuario usuarioDTO
+     * @param usuarioDto usuarioDTO
      * @return usuarioDTO
      */
     public UsuarioDto saveUsuario(final UsuarioDto usuarioDto);
