@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/usuario")
 public class UsuarioController {
 
-
     /** Servicio usuario */
     @Autowired
     private IUsuarioService service;
@@ -25,7 +24,14 @@ public class UsuarioController {
     @PostMapping(value = "/alta")
     public ResponseEntity<?> alta (@Valid @RequestBody final UsuarioDto usuarioDto) {
         log.info("Entrando en alta usuarioController");
-        return ResponseEntity.status(HttpStatus.OK).body(service.saveUsuario(usuarioDto));
+        try {
+            service.saveUsuario(usuarioDto);
+            return new ResponseEntity<>("Usuario guardado con éxito", HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error en el alta usuarioController: " + e.getMessage());
+            String mensajeError = "Error al intentar guardar el usuario: " + e.getMessage();
+            return new ResponseEntity<>(mensajeError, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }
