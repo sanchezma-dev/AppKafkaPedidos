@@ -25,7 +25,7 @@ public class UsuarioEntity {
     /** Apellido segundo usuario */
     private String apellido2;
 
-    /** Email único del usuario */
+    /** Email unico del usuario */
     @Indexed(unique = true)
     private String email;
 
