@@ -2,6 +2,8 @@ package micro.app.usuario.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -11,7 +13,8 @@ import org.springframework.data.mongodb.core.index.Indexed;
 public class UsuarioDto {
 
     /** Nombre usuario */
-    @NotBlank(message = "El nombre es obligatorio")
+    @NotNull(message = "El nombre debe ser nulo")
+    @NotEmpty(message = "El nombre debe estar informado")
     private String nombre;
 
     /** Apellido primero usuario*/

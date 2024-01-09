@@ -1,12 +1,12 @@
 package micro.app.usuario.entity;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
@@ -19,7 +19,6 @@ public class UsuarioEntity {
     private String id;
 
     /** Nombre usuario */
-    @NotBlank(message = "El nombre es obligatorio")
     private String nombre;
 
     /** Apellido primero usuario*/
