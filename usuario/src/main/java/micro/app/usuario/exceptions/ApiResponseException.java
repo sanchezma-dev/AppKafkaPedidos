@@ -1,9 +1,9 @@
 package micro.app.usuario.exceptions;
 
-import lombok.Data;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-@Data
+@Getter
 public class ApiResponseException extends RuntimeException {
 
     private final HttpStatus httpStatus;
@@ -14,7 +14,7 @@ public class ApiResponseException extends RuntimeException {
         this.httpStatus = httpStatus;
     }
 
-    public static ApiResponseException getException(final String message, final HttpStatus httpStatus){
+    public static ApiResponseException of(final String message, final HttpStatus httpStatus){
         return new ApiResponseException(message, httpStatus);
     }
 }
