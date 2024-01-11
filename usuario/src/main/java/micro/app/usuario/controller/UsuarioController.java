@@ -22,8 +22,8 @@ public class UsuarioController {
     @PostMapping(value = "/alta")
     public ResponseEntity<?> alta (@Valid @RequestBody final UsuarioDto usuarioDto) {
         log.info("Entrando en alta usuarioController");
-            service.saveUsuario(usuarioDto);
-            return new ResponseEntity<>("Usuario guardado con éxito", HttpStatus.OK);
+        service.saveUsuario(usuarioDto);
+        return new ResponseEntity<>("Usuario guardado con éxito", HttpStatus.OK);
     }
 
     //FIXME A la dar de baja se enviará evento kafka a notificacion para que esta mande el email de la baja

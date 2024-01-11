@@ -25,12 +25,12 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
     @Override
     public UsuarioDto saveUsuario(UsuarioDto usuarioDto) {
-        final UsuarioEntity usuarioEntity = convert.convertToEntity(usuarioDto);
-        try{
+        if (!repo.existsByEmail(usuarioDto.getEmail())) {
+            final UsuarioEntity usuarioEntity = convert.convertToEntity(usuarioDto);
             return convert.convertToDto(repo.save(usuarioEntity));
-        } catch (Exception e) {
-            log.error("Error en la creación de usuario: ", e.getMessage());
-            throw ApiResponseException.of("Error en la creación de usuario: " + e.getCause(), HttpStatus.INTERNAL_SERVER_ERROR);
+        } else {
+            log.error("Error en UsuarioServieImpl.saveUsuario. Email incorrecto, debe ser único");
+            throw ApiResponseException.of("Ya existe ese email registrado, debe ser único", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
