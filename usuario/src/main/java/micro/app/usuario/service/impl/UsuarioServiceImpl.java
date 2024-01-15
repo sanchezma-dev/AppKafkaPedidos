@@ -11,15 +11,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 public class UsuarioServiceImpl implements IUsuarioService {
 
-    /** Repository */
+    /**
+     * Repository
+     */
     @Autowired
     private UsuarioRepository repo;
 
-    /** Coonvert */
+    /**
+     * Coonvert
+     */
     @Autowired
     private IUsuarioConvert convert;
 
@@ -32,5 +38,17 @@ public class UsuarioServiceImpl implements IUsuarioService {
             log.error("Error en UsuarioServieImpl.saveUsuario. Email incorrecto, debe ser único");
             throw ApiResponseException.of("Ya existe ese email registrado, debe ser único", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @Override
+    public void borradoUsuario(String email) {
+        // orElseThrow es de Optional, que es lo que devuelve el repo
+        UsuarioEntity usuario = repo.findByEmail(email)
+                .orElseThrow(() -> {
+                    log.error("Error en UsuarioServiceImpl.borradoUsuario. No existe ningún Usuario asociado al email proporcionado: {}", email);
+                    return ApiResponseException.of("El usuario a eliminar no existe", HttpStatus.NOT_FOUND);
+                });
+        // Si existe usuario, lo elimina
+        repo.delete(usuario);
     }
 }

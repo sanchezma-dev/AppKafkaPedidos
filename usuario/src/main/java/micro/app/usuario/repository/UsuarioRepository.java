@@ -3,6 +3,8 @@ package micro.app.usuario.repository;
 import micro.app.usuario.entity.UsuarioEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.util.Optional;
+
 public interface UsuarioRepository extends MongoRepository<UsuarioEntity, String> {
 
     /**
@@ -10,6 +12,13 @@ public interface UsuarioRepository extends MongoRepository<UsuarioEntity, String
      * @param email
      * @return true o false
      */
-    boolean existsByEmail(String email);
+    boolean existsByEmail(final String email);
+
+    /**
+     * Busca al usuario con el email dado
+     * @param email
+     * @return usuario o vacio en caso de no encontrarlo
+     */
+    Optional<UsuarioEntity> findByEmail(final String email);
 
 }

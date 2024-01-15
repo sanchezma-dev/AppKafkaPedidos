@@ -12,5 +12,10 @@ public interface IUsuarioService {
      */
     public UsuarioDto saveUsuario(final UsuarioDto usuarioDto);
 
-    // FIXME HACER: Listar, Eliminar, actualizar
+    /**
+     * Elimina al usuario que coincida con el email proporcionado
+     * @param email
+     */
+    public void borradoUsuario(final String email);
+
 }

@@ -3,6 +3,7 @@ package micro.app.usuario.controller;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import micro.app.usuario.dto.UsuarioDto;
+import micro.app.usuario.exceptions.ApiResponseException;
 import micro.app.usuario.service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,8 +30,12 @@ public class UsuarioController {
     //FIXME A la dar de baja se enviará evento kafka a notificacion para que esta mande el email de la baja
     @DeleteMapping(value = "/baja/{email}")
     public ResponseEntity<?> baja (@PathVariable final String email) {
-        //FIXME Controlar si el usuario a eliminar no existe
-        return null;
+        log.info("Entrando en baja usuarioController");
+        try {
+            service.borradoUsuario(email);
+            return new ResponseEntity<>("Usuario borrado con éxito", HttpStatus.OK);
+        } catch (ApiResponseException e) {
+            return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
+        }
     }
-
 }
