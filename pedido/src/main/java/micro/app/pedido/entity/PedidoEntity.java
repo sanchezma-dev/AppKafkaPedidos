@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import micro.app.pedido.dto.ProductoDto;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,10 +33,8 @@ public class PedidoEntity {
     @Column(name = "ESTADO", nullable = false)
     private String estado;
 
-    // Relacion unidireccional. Un pedido puede tener varios productos
-    // No se pone el campo ID_PEDIDO en el entity ProductoPedidoEntity
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "ID_PEDIDO")
+    // Bidireccional
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductoPedidoEntity> productos = new ArrayList<>();
 
 }

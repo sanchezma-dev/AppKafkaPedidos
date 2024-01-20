@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import micro.app.pedido.dto.ProductoDto;
 
 @Data
 @NoArgsConstructor
@@ -18,5 +19,13 @@ public class ProductoPedidoEntity {
     private Long id;
 
     @Column(name = "ID_PRODUCTO", nullable = false)
-    private Long idProducto;
+    private Long producto;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_PEDIDO", nullable = false)
+    private PedidoEntity pedido;
+
+    @Column(name ="cantidad")
+    private int cantidad;
+
 }
