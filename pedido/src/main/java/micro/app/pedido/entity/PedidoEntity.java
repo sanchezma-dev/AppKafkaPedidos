@@ -35,6 +35,6 @@ public class PedidoEntity {
 
     // Bidireccional
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductoPedidoEntity> productos = new ArrayList<>();
+    private List<ProductoPedidoEntity> productosPedido = new ArrayList<>();
 
 }

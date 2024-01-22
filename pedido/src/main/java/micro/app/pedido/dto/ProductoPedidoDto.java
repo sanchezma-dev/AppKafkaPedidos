@@ -13,7 +13,7 @@ public class ProductoPedidoDto {
 
     private Long id;
 
-    private Long producto;
+    private Long idProducto;
 
     private PedidoDto pedido;
 

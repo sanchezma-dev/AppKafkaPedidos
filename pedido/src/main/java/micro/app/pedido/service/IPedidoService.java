@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface IPedidoService {
 
-    public void altaPedido(final PedidoDto pedido);
+    public Optional<PedidoDto> altaPedido(final PedidoDto pedido);
 }
