@@ -1,5 +1,6 @@
 package micro.app.pedido.service.impl;
 
+import micro.app.pedido.convert.IPedidoConvert;
 import micro.app.pedido.dto.PedidoDto;
 import micro.app.pedido.dto.ProductoDto;
 import micro.app.pedido.entity.PedidoEntity;
@@ -18,20 +19,28 @@ public class PedidoServiceImpl implements IPedidoService {
     @Autowired
     private IPedidoRepository repo;
 
+    @Autowired
+    private IPedidoConvert convertPedido;
+
     @Override
-    public void altaPedido(PedidoDto pedido) {
+    public Optional<PedidoDto> altaPedido(PedidoDto pedido) {
+        //FIXME Hacer en método privado
         PedidoEntity pedidoEntity= new PedidoEntity();
         pedidoEntity.setIdUsuario(pedido.getIdUsuario());
         pedidoEntity.setFecha(new Date());
+        //FIXME Pasar a constante o propiedad
         pedidoEntity.setEstado("PENDIENTE");
 
         for (ProductoDto p: pedido.getProductos()) {
             ProductoPedidoEntity productoPedidoEntity = new ProductoPedidoEntity();
-            productoPedidoEntity.setProducto(p.getIdProducto());
+            productoPedidoEntity.setIdProducto(p.getIdProducto());
             productoPedidoEntity.setCantidad(p.getCantidad());
             productoPedidoEntity.setPedido(pedidoEntity);
-            pedidoEntity.getProductos().add(productoPedidoEntity);
+            pedidoEntity.getProductosPedido().add(productoPedidoEntity);
         }
-        repo.save(pedidoEntity);
+        final PedidoEntity pedidoSave = repo.save(pedidoEntity);
+        // FIXME hacer excepcion propia por si llegara null
+        return Optional.of(convertPedido.convertToDto(pedidoSave));
     }
+
 }

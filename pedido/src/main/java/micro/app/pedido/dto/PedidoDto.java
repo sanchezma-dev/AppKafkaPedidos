@@ -19,7 +19,7 @@ public class PedidoDto {
 
     private String estado;
 
-    private List<ProductoPedidoEntity> productosPedido;
+    private List<ProductoPedidoDto> productosPedido;
 
     /**
      * Atributo que no está en el PedidoEntity, que guarda el idProducto

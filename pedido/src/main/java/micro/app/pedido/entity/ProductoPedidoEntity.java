@@ -19,7 +19,7 @@ public class ProductoPedidoEntity {
     private Long id;
 
     @Column(name = "ID_PRODUCTO", nullable = false)
-    private Long producto;
+    private Long idProducto;
 
     @ManyToOne
     @JoinColumn(name = "ID_PEDIDO", nullable = false)
