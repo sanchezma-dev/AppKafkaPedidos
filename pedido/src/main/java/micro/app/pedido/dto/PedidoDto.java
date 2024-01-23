@@ -1,8 +1,6 @@
 package micro.app.pedido.dto;
 
-import jakarta.persistence.*;
 import lombok.Data;
-import micro.app.pedido.entity.ProductoPedidoEntity;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,5 +23,5 @@ public class PedidoDto {
      * Atributo que no está en el PedidoEntity, que guarda el idProducto
      * y la cantidad del mismo
      */
-    private List<ProductoDto> productos;
+    private List<Solicitud> listaSolicitud = new ArrayList<>();
 }

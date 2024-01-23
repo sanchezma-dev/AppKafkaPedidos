@@ -1,5 +1,6 @@
 package micro.app.pedido.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import micro.app.pedido.dto.PedidoDto;
 import micro.app.pedido.entity.PedidoEntity;
 import micro.app.pedido.service.IPedidoService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequestMapping(value = "/pedido")
 public class PedidoController {
@@ -21,7 +23,7 @@ public class PedidoController {
 
     @PostMapping(value = "/alta")
     public ResponseEntity<?> alta (@RequestBody final PedidoDto pedido) {
-        //log.info("Entrando en alta usuarioController");
+        log.info("Entrando en alta PedidoController.alta");
         service.altaPedido(pedido);
         return new ResponseEntity<>("Usuario guardado con éxito", HttpStatus.OK);
     }

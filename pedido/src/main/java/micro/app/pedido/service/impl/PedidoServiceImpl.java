@@ -3,7 +3,7 @@ package micro.app.pedido.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import micro.app.pedido.convert.IPedidoConvert;
 import micro.app.pedido.dto.PedidoDto;
-import micro.app.pedido.dto.ProductoDto;
+import micro.app.pedido.dto.Solicitud;
 import micro.app.pedido.entity.PedidoEntity;
 import micro.app.pedido.entity.ProductoPedidoEntity;
 import micro.app.pedido.exceptions.ApiResponseException;
@@ -36,7 +36,8 @@ public class PedidoServiceImpl implements IPedidoService {
         //FIXME Pasar a constante o propiedad
         pedidoEntity.setEstado("PENDIENTE");
 
-        for (ProductoDto p : pedido.getProductos()) {
+        //FIXME Pasar a método privado
+        for (Solicitud p : pedido.getListaSolicitud()) {
             ProductoPedidoEntity productoPedidoEntity = new ProductoPedidoEntity();
             productoPedidoEntity.setIdProducto(p.getIdProducto());
             productoPedidoEntity.setCantidad(p.getCantidad());
@@ -44,11 +45,11 @@ public class PedidoServiceImpl implements IPedidoService {
             pedidoEntity.getProductosPedido().add(productoPedidoEntity);
         }
         final PedidoEntity pedidoSave = repo.save(pedidoEntity);
-        return Optional.ofNullable(pedidoSave)
-                .map(convertPedido::convertToDto)
-                .orElseThrow(() -> {
-                    return new ApiResponseException("Se ha producido un error al crear el pedido", HttpStatus.INTERNAL_SERVER_ERROR))
-                });
+        if (pedidoSave == null) {
+            throw ApiResponseException.of("Error al crear el pedido", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return Optional.of(pedidoSave)
+                .map(convertPedido::convertToDto);
     }
 
 }

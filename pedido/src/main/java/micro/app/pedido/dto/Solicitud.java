@@ -1,11 +1,9 @@
 package micro.app.pedido.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-public class ProductoDto {
+public class Solicitud {
 
     /* Id producto */
     private Long idProducto;
