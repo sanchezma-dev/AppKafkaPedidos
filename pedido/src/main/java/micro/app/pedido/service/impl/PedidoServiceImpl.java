@@ -44,11 +44,11 @@ public class PedidoServiceImpl implements IPedidoService {
             pedidoEntity.getProductosPedido().add(productoPedidoEntity);
         }
         final PedidoEntity pedidoSave = repo.save(pedidoEntity);
-        return Optional.ofNullable(pedidoSave)
-                .map(convertPedido::convertToDto)
-                .orElseThrow(() -> {
-                    return new ApiResponseException("Se ha producido un error al crear el pedido", HttpStatus.INTERNAL_SERVER_ERROR))
-                });
+        if (pedidoSave == null) {
+            throw ApiResponseException.of("Error al crear el pedido", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return Optional.of(pedidoSave)
+                .map(convertPedido::convertToDto);
     }
 
 }
