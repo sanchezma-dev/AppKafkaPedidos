@@ -2,11 +2,10 @@ package micro.app.pedido.service;
 
 import micro.app.pedido.dto.PedidoDto;
 import micro.app.pedido.dto.Solicitud;
-import micro.app.pedido.entity.PedidoEntity;
-
-import java.util.Optional;
 
 public interface IPedidoService {
 
     public PedidoDto altaPedido(final Solicitud solicitud);
+
+    public void bajaPedido(final Long idPedido);
 }

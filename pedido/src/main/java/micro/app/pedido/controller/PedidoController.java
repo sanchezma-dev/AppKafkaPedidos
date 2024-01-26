@@ -30,4 +30,15 @@ public class PedidoController {
             return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
         }
     }
+
+    @DeleteMapping(value = "/baja/{idPedido}")
+    public ResponseEntity<?> baja(@PathVariable final Long idPedido){
+        log.info("Entrando en baja PedidoController.baja");
+        try{
+            service.bajaPedido(idPedido);
+            return new ResponseEntity<>("El pedido se ha eliminado con éxito", HttpStatus.OK);
+        }catch (ApiResponseException e){
+            return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
+        }
+    }
 }

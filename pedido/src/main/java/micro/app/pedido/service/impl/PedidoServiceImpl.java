@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -42,6 +43,18 @@ public class PedidoServiceImpl implements IPedidoService {
             throw ApiResponseException.of("Error al crear el pedido", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return convertPedido.convertToDto(pedidoSave);
+    }
+
+    @Override
+    public void bajaPedido(Long idPedido) {
+        log.info("Entra en PedidoServiceImpl.bajaPedido");
+        final PedidoEntity pedido = repo.findById(idPedido)
+                .orElseThrow(() -> {
+                    log.error("Error en PedidoServiceImpl.bajaPedido. No existe ningún Pedido asociado al identificador proporcionado: {}", idPedido);
+                    return ApiResponseException.of("El pedido a eliminar no existe", HttpStatus.NOT_FOUND);
+                });
+        // Si existe el pedido, se elimina
+        repo.delete(pedido);
     }
 
     // Metodos privados
