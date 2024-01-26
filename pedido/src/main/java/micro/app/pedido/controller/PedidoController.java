@@ -2,6 +2,7 @@ package micro.app.pedido.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import micro.app.pedido.dto.PedidoDto;
+import micro.app.pedido.dto.Solicitud;
 import micro.app.pedido.entity.PedidoEntity;
 import micro.app.pedido.service.IPedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,9 @@ public class PedidoController {
     private IPedidoService service;
 
     @PostMapping(value = "/alta")
-    public ResponseEntity<?> alta (@RequestBody final PedidoDto pedido) {
+    public ResponseEntity<?> alta (@RequestBody final Solicitud solicitud) {
         log.info("Entrando en alta PedidoController.alta");
-        service.altaPedido(pedido);
+        service.altaPedido(solicitud);
         return new ResponseEntity<>("Usuario guardado con éxito", HttpStatus.OK);
     }
 }

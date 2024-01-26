@@ -2,12 +2,14 @@ package micro.app.pedido.dto;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class Solicitud {
 
-    /* Id producto */
-    private Long idProducto;
+    /* Identificador del usuario que hace el Pedido */
+    private String idUsuario;
 
-    /* Unidades del producto */
-    private int cantidad;
+    /* Lista de productoDto */
+    private List<ProductoDto> productos;
 }
