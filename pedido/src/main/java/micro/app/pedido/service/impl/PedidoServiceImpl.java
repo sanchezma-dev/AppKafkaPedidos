@@ -2,7 +2,9 @@ package micro.app.pedido.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import micro.app.pedido.convert.IPedidoConvert;
-import micro.app.pedido.dto.*;
+import micro.app.pedido.dto.PedidoDto;
+import micro.app.pedido.dto.ProductoDto;
+import micro.app.pedido.dto.Solicitud;
 import micro.app.pedido.entity.PedidoEntity;
 import micro.app.pedido.entity.ProductoPedidoEntity;
 import micro.app.pedido.exceptions.ApiResponseException;
@@ -13,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -68,11 +69,11 @@ public class PedidoServiceImpl implements IPedidoService {
             log.error("Error en PedidoServiceImpl.modificaPedido. El pedido a modificar ya se encuentra FINALIZADO");
             throw  ApiResponseException.of("El pedido a modificar ya se encuentra FINALIZADO", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        // Actualiza pedido
+        // Actualiza la fecha y el estado del pedido
         pedidoEntity.setFecha(new Date());
         pedidoEntity.setEstado(EstadoConstantes.PENDIENTE);
         // Actualizar los productos del pedido
-        pedidoEntity.getProductosPedido().clear();
+        pedidoEntity.getProductosPedido().clear();// Borra los anteriores
         cargaProdPedido(solicitud.getProductos(), pedidoEntity);
 
         return convertPedido.convertToDto(repo.save(pedidoEntity));
