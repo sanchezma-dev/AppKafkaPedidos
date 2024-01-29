@@ -8,4 +8,6 @@ public interface IPedidoService {
     public PedidoDto altaPedido(final Solicitud solicitud);
 
     public void bajaPedido(final Long idPedido);
+
+    public PedidoDto modificaPedido(final Long idPedido, final Solicitud solicitud);
 }

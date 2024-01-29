@@ -2,9 +2,7 @@ package micro.app.pedido.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import micro.app.pedido.convert.IPedidoConvert;
-import micro.app.pedido.dto.PedidoDto;
-import micro.app.pedido.dto.ProductoDto;
-import micro.app.pedido.dto.Solicitud;
+import micro.app.pedido.dto.*;
 import micro.app.pedido.entity.PedidoEntity;
 import micro.app.pedido.entity.ProductoPedidoEntity;
 import micro.app.pedido.exceptions.ApiResponseException;
@@ -15,9 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -57,6 +55,30 @@ public class PedidoServiceImpl implements IPedidoService {
         repo.delete(pedido);
     }
 
+    @Override
+    public PedidoDto modificaPedido(Long idPedido, Solicitud solicitud) {
+        // Si no existe el pedido a modificar, lanzo la excepcion
+        final PedidoEntity pedidoEntity = repo.findById(idPedido)
+                .orElseThrow(() -> {
+                    log.error("Error en PedidoServiceImpl.modificaPedido. No existe ningún Pedido asociado al identificador proporcionado: {}", idPedido);
+                    return ApiResponseException.of("El pedido a modificar no existe", HttpStatus.NOT_FOUND);
+                });
+        // Validacion del estado del pedido
+        if (EstadoConstantes.FINALIZADO.equals(pedidoEntity.getEstado())) {
+            log.error("Error en PedidoServiceImpl.modificaPedido. El pedido a modificar ya se encuentra FINALIZADO");
+            throw  ApiResponseException.of("El pedido a modificar ya se encuentra FINALIZADO", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        // Actualiza pedido
+        pedidoEntity.setFecha(new Date());
+        pedidoEntity.setEstado(EstadoConstantes.PENDIENTE);
+        // Actualizar los productos del pedido
+        pedidoEntity.getProductosPedido().clear();
+        cargaProdPedido(solicitud.getProductos(), pedidoEntity);
+
+        return convertPedido.convertToDto(repo.save(pedidoEntity));
+    }
+
+
     // Metodos privados
     private PedidoEntity cargaPedido(final Solicitud solicitud) {
         PedidoEntity pedidoEntity = new PedidoEntity();
@@ -67,7 +89,7 @@ public class PedidoServiceImpl implements IPedidoService {
     }
 
     private void cargaProdPedido(final List<ProductoDto> productos, final PedidoEntity pedido) {
-        for (final ProductoDto p: productos) {
+        for (final ProductoDto p : productos) {
             final ProductoPedidoEntity productoPedidoEntity = new ProductoPedidoEntity();
             productoPedidoEntity.setIdProducto(p.getIdProducto());
             productoPedidoEntity.setCantidad(p.getCantidad());
